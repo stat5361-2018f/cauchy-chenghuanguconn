@@ -38,8 +38,16 @@ abstract: |
   &=2nE[\frac{1-(\theta-X_i)^2}{(1+(\theta-X_i)^2)^2}]\\
   &=2n\int_{R} \frac{1-(\theta-X_i)^2}{(1+(\theta-X_i)^2)^2}\frac{1}{\pi[1+(\theta-X_i)^2]}dx\\
   &= \frac{4n}{\pi}
-  \int_{-\infty}^\infty \frac{x^2\,d x}{(1+x^2)^3}
-  = n/2,
+  \int_{-\infty}^\infty \frac{x^2\,d x}{(1+x^2)^3}\\
+   &= \frac{8n}{\pi}
+  \int_{0}^\infty \frac{x^2\,d x}{(1+x^2)^3}\\
+\end{align*}
+let  $y=\frac{1}{(1+x^2)}$, $dy=-2x(1+x^2)^{-2}dx$, so 
+\begin{align*}
+  I_n(\theta) &= \frac{4n}{\pi}\int_{0}^1 y(\frac{1}{y-1})^{1/2}dy\\
+    &= \frac{4n}{\pi}\frac{\Gamma(1.5)\Gamma(1.5)}{\Gamma(3)}\\
+    &= \frac{4n}{\pi}\frac{\pi}{8}\\
+    &= \frac{n}{2}
 \end{align*}
 where $I_n$ is the Fisher information of this sample.
 
@@ -94,7 +102,6 @@ curve(l1, 0, 10, xname = 'loc')
 llk.2nd <- function(x){
   -2 * sum((1 - (x - data.cauchy) ^ 2)/((1 + (x - data.cauchy) ^ 2) ^ 2))
 }
-newtonRaphson
 ## l2 <- Vectorize(llk.2nd)
 ## curve(l2, -10, 20, xname = 'loc')
 mle.nr <- double(length(start))
@@ -176,12 +183,20 @@ kable(dt)
 
 
 ## Comparison between methods
+We could see from the loglikelihood function that there is a maximum value. However, the performance of Newton–Raphson method depend on the initial values chosen, and many cases the result could not converge. For Fixed Point Iteration method, the choice of $\alpha$ greatly impact on whether the result would converge. For Fisher Scoring refined by Newton–Raphson method, the results converge for all initial values.\
+Comparison of the iteration times of the three methods are listed in the above sections. The Fisher Scoring refined by Newton–Raphson method is most stable one and the iteration time is also the smallest.
+```{r itr, echo = TRUE, message = FALSE, warning=FALSE}
 
+range(iter.nr) ## Newton–Raphson method
+range(tble$iter.fpi) ## Fixed Point Iteration
+range(itr.fs) ## Fisher Scoring 
+range(itr.nt) ## Newton–Raphson after Fisher Scoring
+
+```
 
 
 # Reference {-}
 
 https://stackoverflow.com/questions/28253327/error-with-curve-expr-did-not-evaluate-to-an-object-of-length-n \
 [jun-yan/stat-5361]https://github.com/jun-yan/stat-5361 \
-[ggplot2 boxplot] \
-http://www.sthda.com/english/wiki/ggplot2-box-plot-quick-start-guide-r-software-and-data-visualization
+
