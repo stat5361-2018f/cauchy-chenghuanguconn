@@ -44,7 +44,7 @@ abstract: |
 \end{align*}
 let  $y=\frac{1}{(1+x^2)}$, $dy=-2x(1+x^2)^{-2}dx$, so 
 \begin{align*}
-  I_n(\theta) &= \frac{4n}{\pi}\int_{0}^1 y(\frac{1}{y-1})^{1/2}dy\\
+  I_n(\theta) &= \frac{4n}{\pi}\int_{0}^1 y^{1/2}(\frac{1}{y}-1)^{1/2}dy\\
     &= \frac{4n}{\pi}\frac{\Gamma(1.5)\Gamma(1.5)}{\Gamma(3)}\\
     &= \frac{4n}{\pi}\frac{\pi}{8}\\
     &= \frac{n}{2}
